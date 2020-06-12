@@ -16,6 +16,8 @@ using ShareMusic.Data.Entities;
 using Microsoft.AspNetCore.Http;
 using ShareMusic.Services.Interfaces;
 using ShareMusic.Services;
+using ShareMusic.DataProviders.Interfaces;
+using ShareMusic.DataProviders;
 
 namespace ShareMusic
 {
@@ -63,6 +65,7 @@ namespace ShareMusic
 
             // Custom Services
             services.AddTransient<ISongsService, SongsService>();
+            services.AddTransient<IYoutubeDataProvider, YoutubeDataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
