@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShareMusic.Data.Entities;
 using Microsoft.AspNetCore.Http;
+using ShareMusic.Services.Interfaces;
+using ShareMusic.Services;
 
 namespace ShareMusic
 {
@@ -58,6 +60,9 @@ namespace ShareMusic
             services.AddRazorPages();
 
             services.AddSingleton(this.Configuration);
+
+            // Custom Services
+            services.AddTransient<ISongsService, SongsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
