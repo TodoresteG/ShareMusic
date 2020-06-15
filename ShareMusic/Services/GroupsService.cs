@@ -16,6 +16,11 @@ namespace ShareMusic.Services
             this.context = context;
         }
 
+        public void CreateGroup(CreateGroupInputModel inputModel)
+        {
+
+        }
+
         public CreateGroupInputModel ListAllUsers()
         {
             List<SelectListItem> users = this.context

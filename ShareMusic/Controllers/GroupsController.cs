@@ -15,10 +15,22 @@ namespace ShareMusic.Controllers
             this.groupsService = groupsService;
         }
 
-        public IActionResult CreateGroup() 
+        public IActionResult CreateGroup()
         {
             CreateGroupInputModel viewModel = this.groupsService.ListAllUsers();
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateGroup(CreateGroupInputModel inputModel) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+
+            return Redirect("/");
         }
     }
 }
