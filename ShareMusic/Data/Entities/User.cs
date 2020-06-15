@@ -12,6 +12,8 @@ namespace ShareMusic.Data.Entities
             this.Id = Guid.NewGuid().ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Playlists = new HashSet<Playlist>();
+            this.OwnedGroups = new HashSet<Group>();
+            this.GroupUsers = new HashSet<GroupUser>();
         }
 
         public DateTime CreatedOn { get; set; }
@@ -25,5 +27,9 @@ namespace ShareMusic.Data.Entities
         public ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public ICollection<Playlist> Playlists { get; set; }
+
+        public ICollection<Group> OwnedGroups { get; set; } 
+
+        public ICollection<GroupUser> GroupUsers { get; set; }
     }
 }

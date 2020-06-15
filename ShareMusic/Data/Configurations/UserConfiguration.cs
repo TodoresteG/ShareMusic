@@ -19,6 +19,18 @@ namespace ShareMusic.Data.Configurations
                 .WithOne()
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            user
+                .HasMany(u => u.OwnedGroups)
+                .WithOne(g => g.Owner)
+                .HasForeignKey(g => g.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            user
+                .HasMany(u => u.GroupUsers)
+                .WithOne(gu => gu.User)
+                .HasForeignKey(gu => gu.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

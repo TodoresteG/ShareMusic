@@ -17,6 +17,12 @@ namespace ShareMusic.Data
 
         public DbSet<Artist> Artists { get; set; }
 
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<GroupSong> GroupSongs { get; set; }
+
+        public DbSet<GroupUser> GroupUsers { get; set; }
+
         public DbSet<Playlist> Playlists { get; set; }
 
         public DbSet<PlaylistSong> PlaylistSongs { get; set; }
