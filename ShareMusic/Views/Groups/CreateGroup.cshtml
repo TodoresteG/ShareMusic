@@ -1,0 +1,46 @@
+﻿@model CreateGroupInputModel
+@{
+    ViewData["Title"] = "CreateGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<asp:Content ID="MultiSelectContent" runat="server" ContentPlaceHolderID="MultiSelectContent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+</asp:Content>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center m-md-3">@ViewData["Title"]</h1>
+        <section>
+            <form asp-controller="Groups" asp-action="CreateGroup" method="post">
+                <h4 class="text-center">Add new song to the database.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label asp-for="Users"></label>
+                            <select asp-for="Users" asp-items="@Model.Users" class="mdb-select colorful-select dropdown-primary md-form" multiple searchable="Search here..">
+                                <option value="" disabled selected>Choose users to add..</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success" type="submit" value="Add Song" />
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="~/js/createGroup.js"></script>
+}
