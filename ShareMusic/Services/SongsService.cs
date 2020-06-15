@@ -1,4 +1,6 @@
-﻿using ShareMusic.Data;
+﻿using System;
+using ShareMusic.Data;
+using ShareMusic.Data.Entities;
 using ShareMusic.Models.Songs;
 using ShareMusic.Services.Interfaces;
 
@@ -13,9 +15,33 @@ namespace ShareMusic.Services
             this.context = context;
         }
 
-        public void CreateSong(AddSongInputModel inputModel)
+        public int CreateSong(AddSongInputModel inputModel)
         {
-            throw new System.NotImplementedException();
+            Song song = new Song
+            {
+                Name = inputModel.Song,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            Artist artist = new Artist
+            {
+                Name = inputModel.Artist,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            SongArtist songArtist = new SongArtist
+            {
+                ArtistId = artist.Id,
+                SongId = song.Id,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            this.context.Songs.Add(song);
+            this.context.Artists.Add(artist);
+            this.context.SongArtists.Add(songArtist);
+            this.context.SaveChanges();
+
+            return song.Id;
         }
     }
 }

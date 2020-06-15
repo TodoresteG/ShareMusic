@@ -33,8 +33,8 @@ namespace ShareMusic.Controllers
                 return this.View(inputModel);
             }
 
-            // this.songsService.CreateSong(inputModel);
-            this.youtubeDataProvider.SearchVideo(inputModel.Artist, inputModel.Song);
+            string videoId = this.youtubeDataProvider.SearchVideo(inputModel.Artist, inputModel.Song);
+            // int songId = this.songsService.CreateSong(inputModel);
 
             return Redirect("Home");
         }
