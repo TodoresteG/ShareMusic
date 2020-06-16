@@ -36,5 +36,12 @@ namespace ShareMusic.Controllers
 
             return Redirect("/");
         }
+
+        public IActionResult List() 
+        {
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            GroupsListViewModel viewModel = this.groupsService.ListAllGroupsForUser(userId);
+            return this.View(viewModel);
+        }
     }
 }

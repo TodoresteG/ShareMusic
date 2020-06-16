@@ -1,0 +1,33 @@
+﻿@model GroupsListViewModel
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-between">
+    <div class="col-md-12">
+
+    </div>
+    <div class="col-md-6">
+        <h3>Groups created by you:</h3>
+        <ol>
+            @foreach (var group in Model.OwnedGroups)
+            {
+                <li>
+                    <a asp-controller="Groups" asp-action="" asp-route-id="@group.Id" class="lead">@group.Name</a>
+                </li>
+            }
+        </ol>
+    </div>
+    <div class="col-md-6">
+        <h3>Groups you take part in:</h3>
+        <ol>
+            @foreach (var group in Model.GroupsForUser)
+            {
+                <li>
+                    <a asp-controller="Groups" asp-action="" asp-route-id="@group.Id" class="lead">@group.Name</a>
+                </li>
+            }
+        </ol>
+    </div>
+</div>
