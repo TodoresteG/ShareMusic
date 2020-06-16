@@ -43,5 +43,11 @@ namespace ShareMusic.Controllers
             GroupsListViewModel viewModel = this.groupsService.ListAllGroupsForUser(userId);
             return this.View(viewModel);
         }
+
+        public IActionResult Search(string searchText)
+        {
+            GroupsSearchResultViewModel viewModel = this.groupsService.SearchGroups(searchText);
+            return this.View(viewModel);
+        }
     }
 }

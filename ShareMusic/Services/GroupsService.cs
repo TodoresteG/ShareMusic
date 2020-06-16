@@ -76,5 +76,29 @@ namespace ShareMusic.Services
 
             return new CreateGroupInputModel { MultiSelectUsers = new MultiSelectList(users) };
         }
+
+        public GroupsSearchResultViewModel SearchGroups(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))
+            {
+                return new GroupsSearchResultViewModel { Count = 0, SearchResults = new List<GroupsSearchResultListViewModel>(), };
+            }
+
+            List<GroupsSearchResultListViewModel> searchResults = this.context.Groups
+                    .Where(g => g.Name.Contains(groupName))
+                    .Select(g => new GroupsSearchResultListViewModel
+                    {
+                        Id = g.Id,
+                        Name = g.Name,
+                    }).ToList();
+
+            GroupsSearchResultViewModel groups = new GroupsSearchResultViewModel
+            {
+                SearchResults = searchResults,
+                Count = searchResults.Count,
+            };
+
+            return groups;
+        }
     }
 }

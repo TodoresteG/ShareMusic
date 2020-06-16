@@ -4,9 +4,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row justify-content-between">
-    <div class="col-md-12">
+<asp:Content ID="MultiSelectContent" runat="server" ContentPlaceHolderID="MultiSelectContent">
+    <link href="~/css/groupSerachForm.css" rel="stylesheet" />
+</asp:Content>
 
+<div class="row justify-content-between">
+    <div class="col-md-12 row justify-content-center">
+        <div class="col-md-8 my-md-4">
+            <h2 class="text-center mb-md-2">Search for existing group</h2>
+            <form asp-controller="Groups" asp-action="Search" method="get" class="form-inline d-flex justify-content-center md-form form-sm">
+                <input asp-for="SearchText" class="form-control form-control-sm mr-3 w-75" placeholder="Search" aria-label="Search" />
+                <input type="submit" class="btn btn-outline-info" value="Search" />
+            </form>
+        </div>
     </div>
     <div class="col-md-6">
         <h3>Groups created by you:</h3>

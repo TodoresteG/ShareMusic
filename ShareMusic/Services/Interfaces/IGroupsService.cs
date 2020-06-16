@@ -9,5 +9,7 @@ namespace ShareMusic.Services.Interfaces
         void CreateGroup(CreateGroupInputModel inputModel);
 
         GroupsListViewModel ListAllGroupsForUser(string userId);
+
+        GroupsSearchResultViewModel SearchGroups(string groupName);
     }
 }

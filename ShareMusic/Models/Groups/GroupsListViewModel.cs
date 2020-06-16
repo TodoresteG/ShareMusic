@@ -7,5 +7,7 @@ namespace ShareMusic.Models.Groups
         public ICollection<GroupUsersListViewModel> GroupsForUser { get; set; }
 
         public ICollection<GroupsOwnedByUserViewModel> OwnedGroups { get; set; }
+
+        public string SearchText { get; set; }
     }
 }
