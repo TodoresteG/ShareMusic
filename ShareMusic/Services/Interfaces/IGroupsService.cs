@@ -11,5 +11,7 @@ namespace ShareMusic.Services.Interfaces
         GroupsListViewModel ListAllGroupsForUser(string userId);
 
         GroupsSearchResultViewModel SearchGroups(string groupName);
+
+        GroupDetailsViewModel GetGroupDetails(string groupId);
     }
 }

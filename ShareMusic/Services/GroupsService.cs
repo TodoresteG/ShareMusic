@@ -44,6 +44,19 @@ namespace ShareMusic.Services
             this.context.SaveChanges();
         }
 
+        public GroupDetailsViewModel GetGroupDetails(string groupId)
+        {
+            GroupDetailsViewModel groupDetails = this.context.Groups
+                .Where(g => g.Id == groupId)
+                .Select(g => new GroupDetailsViewModel
+                {
+                    Name = g.Name,
+                    OwnerName = g.Owner.UserName,
+                }).FirstOrDefault();
+
+            return groupDetails;
+        }
+
         public GroupsListViewModel ListAllGroupsForUser(string userId)
         {
             GroupsListViewModel groupsList = new GroupsListViewModel

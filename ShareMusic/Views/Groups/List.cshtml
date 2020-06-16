@@ -24,7 +24,7 @@
             @foreach (var group in Model.OwnedGroups)
             {
                 <li>
-                    <a asp-controller="Groups" asp-action="" asp-route-id="@group.Id" class="lead">@group.Name</a>
+                    <a asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="lead">@group.Name</a>
                 </li>
             }
         </ol>
@@ -35,9 +35,15 @@
             @foreach (var group in Model.GroupsForUser)
             {
                 <li>
-                    <a asp-controller="Groups" asp-action="" asp-route-id="@group.Id" class="lead">@group.Name</a>
+                    <a asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="lead">@group.Name</a>
                 </li>
             }
         </ol>
+    </div>
+    <div class="col-md-12 row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h4>Create your own group</h4>
+            <a class="btn btn-success" asp-controller="Groups" asp-action="CreateGroup">Create Group</a>
+        </div>
     </div>
 </div>
