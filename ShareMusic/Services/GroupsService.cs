@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShareMusic.Data;
+using ShareMusic.Data.Entities;
 using ShareMusic.Models.Groups;
 using ShareMusic.Services.Interfaces;
 
@@ -10,25 +13,45 @@ namespace ShareMusic.Services
     public class GroupsService : IGroupsService
     {
         private readonly ShareMusicDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public GroupsService(ShareMusicDbContext context)
+        public GroupsService(ShareMusicDbContext context, UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         public void CreateGroup(CreateGroupInputModel inputModel)
         {
+            Group group = new Group
+            {
+                Name = inputModel.Name,
+                CreatedOn = DateTime.UtcNow,
+                OwnerId = inputModel.OwnerId,
+            };
 
+            List<GroupUser> groupUsers = inputModel
+                .SelectedUsers
+                .Select(u => new GroupUser
+                {
+                    UserId = this.userManager.Users.FirstOrDefault(x => x.Email == u).Id,
+                })
+                .ToList();
+
+            group.Users = groupUsers;
+
+            this.context.Groups.Add(group);
+            this.context.SaveChanges();
         }
 
         public CreateGroupInputModel ListAllUsers()
         {
-            List<SelectListItem> users = this.context
+            List<string> users = this.context
                 .Users
-                .Select(u => new SelectListItem(u.UserName, u.UserName))
+                .Select(u => u.UserName)
                 .ToList();
 
-            return new CreateGroupInputModel { Users = users };
+            return new CreateGroupInputModel { MultiSelectUsers = new MultiSelectList(users) };
         }
     }
 }

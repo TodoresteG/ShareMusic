@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ShareMusic.Data.Entities.Common;
 
 namespace ShareMusic.Data.Entities
@@ -7,6 +8,7 @@ namespace ShareMusic.Data.Entities
     {
         public Group()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.Songs = new HashSet<GroupSong>();
             this.Users = new HashSet<GroupUser>();
         }

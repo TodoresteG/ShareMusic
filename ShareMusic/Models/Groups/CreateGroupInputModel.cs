@@ -12,6 +12,11 @@ namespace ShareMusic.Models.Groups
         [StringLength(40, ErrorMessage = "{0} must be between {1} and {2} characters", MinimumLength = 3)]
         public string Name { get; set; }
 
-        public ICollection<SelectListItem> Users { get; set; }
+        [Display(Name = "Add users to group")]
+        public MultiSelectList MultiSelectUsers { get; set; }
+
+        public IEnumerable<string> SelectedUsers { get; set; }
+
+        public string OwnerId { get; set; }
     }
 }

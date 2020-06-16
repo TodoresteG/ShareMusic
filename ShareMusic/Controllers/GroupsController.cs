@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMusic.Models.Groups;
 using ShareMusic.Services.Interfaces;
@@ -26,9 +27,12 @@ namespace ShareMusic.Controllers
         {
             if (!ModelState.IsValid)
             {
+                inputModel = this.groupsService.ListAllUsers();
                 return this.View(inputModel);
             }
 
+            inputModel.OwnerId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            this.groupsService.CreateGroup(inputModel);
 
             return Redirect("/");
         }
