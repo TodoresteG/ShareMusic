@@ -52,6 +52,9 @@ namespace ShareMusic.Services
                 {
                     Name = g.Name,
                     OwnerName = g.Owner.UserName,
+                    GroupUserNames = this.context.GroupUsers
+                        .Where(gu => gu.GroupId == groupId)
+                        .Select(gu => gu.User.UserName).ToList(),
                 }).FirstOrDefault();
 
             return groupDetails;

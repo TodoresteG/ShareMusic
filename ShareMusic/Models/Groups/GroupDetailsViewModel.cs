@@ -7,5 +7,7 @@ namespace ShareMusic.Models.Groups
         public string Name { get; set; }
 
         public string OwnerName { get; set; }
+
+        public ICollection<string> GroupUserNames { get; set; }
     }
 }

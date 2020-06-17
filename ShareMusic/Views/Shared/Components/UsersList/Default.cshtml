@@ -1,0 +1,10 @@
+﻿@model CreateGroupInputModel
+@{
+    Layout = "~/Views/Shared/_LayoutUsersListViewComponent.cshtml";
+}
+
+<div class="form-group">
+    <label class="mr-md-2" asp-for="MultiSelectUsers"></label>
+    <select asp-for="SelectedUsers" asp-items="@Model.MultiSelectUsers" class="selectpicker" data-live-search="true">
+    </select>
+</div>
