@@ -121,6 +121,18 @@ namespace ShareMusic.Services
             return new MultiSelectList(users);
         }
 
+        public void RemoveUser(string username, string groupName)
+        {
+            GroupUser groupUser = this.context.GroupUsers
+                .FirstOrDefault(x => x.Group.Name == groupName && x.User.UserName == username);
+
+            if (groupUser != null)
+            {
+                this.context.GroupUsers.Remove(groupUser);
+                this.context.SaveChanges();
+            }
+        }
+
         public GroupsSearchResultViewModel SearchGroups(string groupName)
         {
             if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))

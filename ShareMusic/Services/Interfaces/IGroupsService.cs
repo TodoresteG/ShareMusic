@@ -16,5 +16,7 @@ namespace ShareMusic.Services.Interfaces
         GroupDetailsViewModel GetGroupDetails(string groupId);
 
         void AddUsers(UsersListViewComponentViewModel inputModel, string groupId);
+
+        void RemoveUser(string username, string groupName);
     }
 }

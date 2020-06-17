@@ -66,8 +66,18 @@ namespace ShareMusic.Controllers
             }
 
             this.groupsService.AddUsers(inputModel, id);
-            // GroupDetailsViewModel viewModel = this.groupsService.GetGroupDetails(id);
+            return this.RedirectToAction("List");
+        }
 
+        [HttpPost]
+        public IActionResult RemoveUser(string username, string groupId)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupId))
+            {
+                return RedirectToAction("Details", new { id = groupId });
+            }
+
+            this.groupsService.RemoveUser(username, groupId);
             return this.RedirectToAction("List");
         }
     }
