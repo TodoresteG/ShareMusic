@@ -1,10 +1,11 @@
-﻿using ShareMusic.Models.Groups;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ShareMusic.Models.Groups;
 
 namespace ShareMusic.Services.Interfaces
 {
     public interface IGroupsService
     {
-        CreateGroupInputModel ListAllUsers();
+        MultiSelectList ListAllUsers();
 
         void CreateGroup(CreateGroupInputModel inputModel);
 
@@ -13,5 +14,7 @@ namespace ShareMusic.Services.Interfaces
         GroupsSearchResultViewModel SearchGroups(string groupName);
 
         GroupDetailsViewModel GetGroupDetails(string groupId);
+
+        void AddUsers(UsersListViewComponentViewModel inputModel, string groupId);
     }
 }

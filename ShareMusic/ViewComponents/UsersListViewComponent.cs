@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShareMusic.Models.Groups;
 using ShareMusic.Services.Interfaces;
 
 namespace ShareMusic.ViewComponents
@@ -13,10 +14,13 @@ namespace ShareMusic.ViewComponents
             this.groupsService = groupsService;
         }
 
-        public IViewComponentResult Invoke() 
+        public IViewComponentResult Invoke()
         {
-            // TODO: Use different viewModel
-            var viewModel = this.groupsService.ListAllUsers();
+            UsersListViewComponentViewModel viewModel = new UsersListViewComponentViewModel
+            {
+                MultiSelectUsers = this.groupsService.ListAllUsers()
+            };
+
             return this.View(viewModel);
         }
     }

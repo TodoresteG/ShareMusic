@@ -27,7 +27,7 @@
     <div class="col-md-5">
         @if (Model.OwnerName == this.User.Identity.Name)
         {
-        <form asp-controller="Groups" asp-action="AddUser" method="post">
+        <form asp-controller="Groups" asp-action="Details" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="d-md-flex justify-content-between">
                 <vc:users-list></vc:users-list>

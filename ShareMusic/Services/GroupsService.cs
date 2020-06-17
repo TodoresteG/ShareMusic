@@ -21,6 +21,34 @@ namespace ShareMusic.Services
             this.userManager = userManager;
         }
 
+        public void AddUsers(UsersListViewComponentViewModel inputModel, string groupId)
+        {
+            List<string> usersInGroup = this.context.GroupUsers
+                .Where(gu => gu.GroupId == groupId)
+                .Select(gu => gu.User.UserName).ToList();
+
+            IEnumerable<string> userIds = inputModel.SelectedUsers
+                .Except(usersInGroup)
+                .Select(u => this.userManager.Users.FirstOrDefault(x => x.Email == u).Id);
+
+            List<GroupUser> groupUsers = new List<GroupUser>();
+
+            foreach (var id in userIds)
+            {
+                GroupUser groupUser = new GroupUser
+                {
+                    GroupId = groupId,
+                    UserId = id,
+                    CreatedOn = DateTime.UtcNow,
+                };
+
+                groupUsers.Add(groupUser);
+            }
+
+            this.context.GroupUsers.AddRange(groupUsers);
+            this.context.SaveChanges();
+        }
+
         public void CreateGroup(CreateGroupInputModel inputModel)
         {
             Group group = new Group
@@ -83,14 +111,14 @@ namespace ShareMusic.Services
             return groupsList;
         }
 
-        public CreateGroupInputModel ListAllUsers()
+        public MultiSelectList ListAllUsers()
         {
             List<string> users = this.context
                 .Users
                 .Select(u => u.UserName)
                 .ToList();
 
-            return new CreateGroupInputModel { MultiSelectUsers = new MultiSelectList(users) };
+            return new MultiSelectList(users);
         }
 
         public GroupsSearchResultViewModel SearchGroups(string groupName)

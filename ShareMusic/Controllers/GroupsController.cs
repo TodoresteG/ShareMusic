@@ -18,7 +18,7 @@ namespace ShareMusic.Controllers
 
         public IActionResult CreateGroup()
         {
-            CreateGroupInputModel viewModel = this.groupsService.ListAllUsers();
+            CreateGroupInputModel viewModel = new CreateGroupInputModel { MultiSelectUsers = this.groupsService.ListAllUsers() };
             return this.View(viewModel);
         }
 
@@ -27,7 +27,7 @@ namespace ShareMusic.Controllers
         {
             if (!ModelState.IsValid)
             {
-                inputModel = this.groupsService.ListAllUsers();
+                inputModel.MultiSelectUsers = this.groupsService.ListAllUsers();
                 return this.View(inputModel);
             }
 
@@ -54,6 +54,21 @@ namespace ShareMusic.Controllers
         {
             GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
             return this.View(groupDetails);
+        }
+
+        [HttpPost]
+        public IActionResult Details(UsersListViewComponentViewModel inputModel, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
+                return View(groupDetails);
+            }
+
+            this.groupsService.AddUsers(inputModel, id);
+            // GroupDetailsViewModel viewModel = this.groupsService.GetGroupDetails(id);
+
+            return this.RedirectToAction("List");
         }
     }
 }
