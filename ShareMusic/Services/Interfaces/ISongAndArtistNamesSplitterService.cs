@@ -1,7 +1,9 @@
-﻿namespace ShareMusic.Services.Interfaces
+﻿using System.Collections.Generic;
+
+namespace ShareMusic.Services.Interfaces
 {
     public interface ISongAndArtistNamesSplitterService
     {
-        string SplitArtistNames(string artistNames);
+        IList<string> SplitArtistName(string artistNames);
     }
 }

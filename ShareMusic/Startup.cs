@@ -67,6 +67,7 @@ namespace ShareMusic
             services.AddTransient<ISongsService, SongsService>();
             services.AddTransient<IYoutubeDataProvider, YoutubeDataProvider>();
             services.AddTransient<IGroupsService, GroupsService>();
+            services.AddTransient<ISongAndArtistNamesSplitterService, SongAndArtistNamesSplitterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
