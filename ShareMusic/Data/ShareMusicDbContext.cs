@@ -31,6 +31,8 @@ namespace ShareMusic.Data
 
         public DbSet<SongArtist> SongArtists { get; set; }
 
+        public DbSet<SongMetadata> SongMetadata { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

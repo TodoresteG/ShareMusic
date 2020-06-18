@@ -9,6 +9,7 @@ namespace ShareMusic.Data.Entities
         {
             this.Artists = new HashSet<SongArtist>();
             this.Playlists = new HashSet<PlaylistSong>();
+            this.Metadata = new HashSet<SongMetadata>();
         }
 
         public string Name { get; set; }
@@ -18,5 +19,7 @@ namespace ShareMusic.Data.Entities
         public ICollection<SongArtist> Artists { get; set; }
 
         public ICollection<PlaylistSong> Playlists { get; set; }
+
+        public ICollection<SongMetadata> Metadata { get; set; }
     }
 }

@@ -13,15 +13,18 @@ namespace ShareMusic.Controllers
         private readonly ISongsService songsService;
         private readonly IYoutubeDataProvider youtubeDataProvider;
         private readonly ISongAndArtistNamesSplitterService splitterService;
+        private readonly ISongMetadataService metadataService;
 
         public SongsController(
             ISongsService songsService,
             IYoutubeDataProvider youtubeDataProvider,
-            ISongAndArtistNamesSplitterService splitterService)
+            ISongAndArtistNamesSplitterService splitterService,
+            ISongMetadataService metadataService)
         {
             this.songsService = songsService;
             this.youtubeDataProvider = youtubeDataProvider;
             this.splitterService = splitterService;
+            this.metadataService = metadataService;
         }
 
         [Authorize]
@@ -46,7 +49,7 @@ namespace ShareMusic.Controllers
             string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
             if (!string.IsNullOrEmpty(videoId))
             {
-
+                this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
             }
 
             return Redirect("Home");

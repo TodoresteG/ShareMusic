@@ -11,8 +11,12 @@ namespace ShareMusic.Data.Configurations
             song
                 .HasMany(s => s.Artists)
                 .WithOne(a => a.Song)
-                .HasForeignKey(a => a.SongId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(a => a.SongId);
+
+            song
+                .HasMany(s => s.Metadata)
+                .WithOne(m => m.Song)
+                .HasForeignKey(m => m.SongId);
 
             song
                 .HasMany(s => s.Playlists)
