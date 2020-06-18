@@ -34,7 +34,7 @@ namespace ShareMusic.Controllers
             inputModel.OwnerId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             this.groupsService.CreateGroup(inputModel);
 
-            return Redirect("/");
+            return Redirect("List");
         }
 
         public IActionResult List() 
@@ -52,6 +52,11 @@ namespace ShareMusic.Controllers
 
         public IActionResult Details(string id)
         {
+            if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+            {
+                return RedirectToAction("List");
+            }
+
             GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
             return this.View(groupDetails);
         }
@@ -70,15 +75,28 @@ namespace ShareMusic.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveUser(string username, string groupId)
+        public IActionResult RemoveUser(string username, string groupName)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupId))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupName))
             {
-                return RedirectToAction("Details", new { id = groupId });
+                return RedirectToAction("List");
             }
 
-            this.groupsService.RemoveUser(username, groupId);
+            this.groupsService.RemoveUser(username, groupName);
             return this.RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteGroup(string groupName) 
+        {
+            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))
+            {
+                return RedirectToAction("List");
+            }
+
+            this.groupsService.DeleteGroup(groupName);
+
+            return RedirectToAction("List");
         }
     }
 }

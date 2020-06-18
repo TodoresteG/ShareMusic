@@ -11,14 +11,12 @@ namespace ShareMusic.Data.Configurations
             group
                 .HasMany(g => g.Songs)
                 .WithOne(s => s.Group)
-                .HasForeignKey(s => s.GroupId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(s => s.GroupId);
 
             group
                 .HasMany(g => g.Users)
                 .WithOne(u => u.Group)
-                .HasForeignKey(u => u.GroupId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(u => u.GroupId);
         }
     }
 }

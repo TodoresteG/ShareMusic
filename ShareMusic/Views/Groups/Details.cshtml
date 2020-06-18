@@ -8,8 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 </asp:Content>
 
-<h1>@Model.Name @ViewData["Title"]</h1>
-<p>Owner name: @Model.OwnerName</p>
+<div class="row">
+    <div class="col-md-10">
+        <h1>@Model.Name @ViewData["Title"]</h1>
+        <p>Owner name: @Model.OwnerName</p>
+    </div>
+    @if (Model.OwnerName == this.User.Identity.Name)
+    {
+        <div class="col-md-2 align-self-center">
+            <form asp-controller="Groups" asp-action="DeleteGroup" method="post">
+                <input type="text" name="groupName" value="@Model.Name" hidden />
+                <input onclick="return confirm('Are you sure you want to delete this group?');" class="btn btn-danger text-white" type="submit" value="Delete Group" />
+            </form>
+        </div>
+    }
+</div>
 
 <div class="row">
     <ul class="list-group col-md-12">
@@ -22,8 +35,8 @@
                     {
                         <form asp-controller="Groups" asp-action="RemoveUser" method="post">
                             <input type="text" name="username" value="@name" hidden />
-                            <input type="text" name="groupId" value="@Model.Name" hidden />
-                            <input class="btn btn-danger text-white ml-md-2" type="submit" value="Remove User" />
+                            <input type="text" name="groupName" value="@Model.Name" hidden />
+                            <input onclick="return confirm('Are you sure you want to remove this user?');" class="btn btn-danger text-white ml-md-2" type="submit" value="Remove User" />
                         </form>
                     }
                 </div>

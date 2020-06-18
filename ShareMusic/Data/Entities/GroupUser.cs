@@ -2,7 +2,7 @@
 
 namespace ShareMusic.Data.Entities
 {
-    public class GroupUser : BaseModel<int>
+    public class GroupUser : BaseDeletableModel<string>
     {
         public string GroupId { get; set; }
 

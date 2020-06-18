@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShareMusic.Data;
 
 namespace ShareMusic.Data.Migrations
 {
     [DbContext(typeof(ShareMusicDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200618034717_GroupUser-Deletebale")]
+    partial class GroupUserDeletebale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -533,7 +535,7 @@ namespace ShareMusic.Data.Migrations
                     b.HasOne("ShareMusic.Data.Entities.Group", "Group")
                         .WithMany("Songs")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ShareMusic.Data.Entities.Song", "Song")
@@ -548,7 +550,7 @@ namespace ShareMusic.Data.Migrations
                     b.HasOne("ShareMusic.Data.Entities.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ShareMusic.Data.Entities.User", "User")
