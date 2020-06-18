@@ -13,6 +13,8 @@ namespace ShareMusic.Data.Entities
 
         public string Name { get; set; }
 
+        public string SearchTerms { get; set; }
+
         public ICollection<SongArtist> Artists { get; set; }
 
         public ICollection<PlaylistSong> Playlists { get; set; }

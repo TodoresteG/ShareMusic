@@ -41,9 +41,13 @@ namespace ShareMusic.Controllers
             }
 
             List<string> artists = this.splitterService.SplitArtistName(inputModel.Artist).ToList();
-            ;
-            // string videoId = this.youtubeDataProvider.SearchVideo(inputModel.Artist, inputModel.Song);
-            // int songId = this.songsService.CreateSong(inputModel);
+            int songId = this.songsService.CreateSong(inputModel.Song, artists);
+
+            string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
+            if (!string.IsNullOrEmpty(videoId))
+            {
+
+            }
 
             return Redirect("Home");
         }

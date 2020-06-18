@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
 using ShareMusic.Models.Songs;
@@ -15,33 +17,43 @@ namespace ShareMusic.Services
             this.context = context;
         }
 
-        public int CreateSong(AddSongInputModel inputModel)
+        public int CreateSong(string songTitle, IList<string> artists)
         {
-            Song song = new Song
-            {
-                Name = inputModel.Song,
-                CreatedOn = DateTime.UtcNow,
-            };
+            songTitle = songTitle.Trim();
+            List<string> songArtists = artists.Select(x => x.Trim()).Distinct().ToList();
 
-            Artist artist = new Artist
-            {
-                Name = inputModel.Artist,
-                CreatedOn = DateTime.UtcNow,
-            };
+            var similarSongs = this.context.Songs
+                .Where(x => x.Name == songTitle)
+                .Select(x => new
+                {
+                    x.Id,
+                    Artists = x.Artists.Select(a => a.Artist.Name)
+                }).ToList();
 
-            SongArtist songArtist = new SongArtist
+            foreach (var song in similarSongs)
             {
-                ArtistId = artist.Id,
-                SongId = song.Id,
-                CreatedOn = DateTime.UtcNow,
-            };
+                if (!song.Artists.Except(songArtists).Any() && !songArtists.Except(song.Artists).Any())
+                {
+                    return song.Id;
+                }
+            }
 
-            this.context.Songs.Add(song);
-            this.context.Artists.Add(artist);
-            this.context.SongArtists.Add(songArtist);
+            Song dbSong = new Song { Name = songTitle };
+            List<SongArtist> dbSongArtists = new List<SongArtist>();
+
+            for (int i = 0; i < songArtists.Count; i++)
+            {
+                Artist dbArtist = this.context.Artists.FirstOrDefault(a => a.Name == songArtists[i]) ?? new Artist { Name = songArtists[i] };
+                SongArtist dbSongArtist = new SongArtist { Artist = dbArtist, Song = dbSong };
+                dbSongArtists.Add(dbSongArtist);
+            }
+
+            dbSong.Artists = dbSongArtists;
+
+            this.context.Songs.Add(dbSong);
             this.context.SaveChanges();
 
-            return song.Id;
+            return dbSong.Id;
         }
     }
 }

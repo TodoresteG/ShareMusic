@@ -1,9 +1,10 @@
-﻿using ShareMusic.Models.Songs;
+﻿using System.Collections.Generic;
+using ShareMusic.Models.Songs;
 
 namespace ShareMusic.Services.Interfaces
 {
     public interface ISongsService
     {
-        int CreateSong(AddSongInputModel inputModel);
+        int CreateSong(string songTitle, IList<string> artists);
     }
 }
