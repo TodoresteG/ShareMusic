@@ -14,17 +14,20 @@ namespace ShareMusic.Controllers
         private readonly IYoutubeDataProvider youtubeDataProvider;
         private readonly ISongAndArtistNamesSplitterService splitterService;
         private readonly ISongMetadataService metadataService;
+        private readonly IGeniusLyricsDataProvider geniusLyrics;
 
         public SongsController(
             ISongsService songsService,
             IYoutubeDataProvider youtubeDataProvider,
             ISongAndArtistNamesSplitterService splitterService,
-            ISongMetadataService metadataService)
+            ISongMetadataService metadataService,
+            IGeniusLyricsDataProvider geniusLyrics)
         {
             this.songsService = songsService;
             this.youtubeDataProvider = youtubeDataProvider;
             this.splitterService = splitterService;
             this.metadataService = metadataService;
+            this.geniusLyrics = geniusLyrics;
         }
 
         [Authorize]
@@ -44,13 +47,18 @@ namespace ShareMusic.Controllers
             }
 
             List<string> artists = this.splitterService.SplitArtistName(inputModel.Artist).ToList();
-            int songId = this.songsService.CreateSong(inputModel.Song, artists);
+            //int songId = this.songsService.CreateSong(inputModel.Song, artists);
 
-            string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
-            if (!string.IsNullOrEmpty(videoId))
-            {
-                this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
-            }
+            //string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
+            //if (!string.IsNullOrEmpty(videoId))
+            //{
+            //    this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
+            //}
+
+            // TODO: Add lyrics
+            this.geniusLyrics.GetLyrics(inputModel.Song, string.Join(" ", artists));
+
+            // this.songsService.UpdateSongsSystemData(songId);
 
             return Redirect("Home");
         }

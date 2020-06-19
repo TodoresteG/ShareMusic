@@ -55,5 +55,27 @@ namespace ShareMusic.Services
 
             return dbSong.Id;
         }
+
+        public void UpdateSongsSystemData(int songId)
+        {
+            Song song = this.context.Songs.Find(songId);
+            List<string> artists = this.context.SongArtists.Where(sa => sa.SongId == songId).Select(sa => sa.Artist.Name).ToList();
+
+            if (song == null)
+            {
+                return;
+            }
+
+            List<string> searchTerms = new List<string>();
+            foreach (var artist in artists)
+            {
+                searchTerms.Add(artist);
+            }
+
+            searchTerms.Add(song.Name);
+
+            song.SearchTerms = string.Join(" ", searchTerms.Distinct());
+            this.context.SaveChanges();
+        }
     }
 }

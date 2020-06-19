@@ -69,6 +69,7 @@ namespace ShareMusic
             services.AddTransient<IGroupsService, GroupsService>();
             services.AddTransient<ISongAndArtistNamesSplitterService, SongAndArtistNamesSplitterService>();
             services.AddTransient<ISongMetadataService, SongMetadataService>();
+            services.AddTransient<IGeniusLyricsDataProvider, GeniusLyricsDataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
