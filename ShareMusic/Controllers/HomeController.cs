@@ -6,21 +6,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShareMusic.Models;
+using ShareMusic.Models.Home;
+using ShareMusic.Services.Interfaces;
 
 namespace ShareMusic.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISongsService songsService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ISongsService songsService)
         {
             _logger = logger;
+            this.songsService = songsService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeRecentSongsViewModel viewModel = this.songsService.GetRecentSongs();
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

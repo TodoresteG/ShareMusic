@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
+using ShareMusic.Models.Home;
 using ShareMusic.Models.Songs;
 using ShareMusic.Services.Interfaces;
 
@@ -54,6 +55,24 @@ namespace ShareMusic.Services
             this.context.SaveChanges();
 
             return dbSong.Id;
+        }
+
+        public HomeRecentSongsViewModel GetRecentSongs()
+        {
+            HomeRecentSongsViewModel viewModel = this.context.Songs
+                .OrderByDescending(s => s.CreatedOn)
+                .Take(20)
+                .Select(s => new HomeRecentSongsViewModel
+                {
+                    NewestSongs = s.Metadata.Where(m => m.SongId == s.Id && m.Type == "YouTubeVideo").Select(m => new SongCardViewModel
+                    {
+                        SongId = m.Song.Id,
+                        Name = m.Song.Name,
+                        VideoId = m.Value,
+                    }).ToList(),
+                }).FirstOrDefault();
+
+            return viewModel;
         }
 
         public void UpdateSongsSystemData(int songId)

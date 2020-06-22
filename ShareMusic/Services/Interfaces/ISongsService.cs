@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ShareMusic.Models.Songs;
+using ShareMusic.Models.Home;
 
 namespace ShareMusic.Services.Interfaces
 {
@@ -8,5 +8,7 @@ namespace ShareMusic.Services.Interfaces
         int CreateSong(string songTitle, IList<string> artists);
 
         void UpdateSongsSystemData(int songId);
+
+        HomeRecentSongsViewModel GetRecentSongs();
     }
 }
