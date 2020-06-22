@@ -2,6 +2,6 @@
 {
     public interface IGeniusLyricsDataProvider
     {
-        void GetLyrics(string songTitle, string artist);
+        string AskForLyrics(string songTitle, string artist);
     }
 }

@@ -38,12 +38,12 @@ namespace ShareMusic.Services
                 }
             }
 
-            Song dbSong = new Song { Name = songTitle };
+            Song dbSong = new Song { Name = songTitle, CreatedOn = DateTime.UtcNow };
             List<SongArtist> dbSongArtists = new List<SongArtist>();
 
             for (int i = 0; i < songArtists.Count; i++)
             {
-                Artist dbArtist = this.context.Artists.FirstOrDefault(a => a.Name == songArtists[i]) ?? new Artist { Name = songArtists[i] };
+                Artist dbArtist = this.context.Artists.FirstOrDefault(a => a.Name == songArtists[i]) ?? new Artist { Name = songArtists[i], CreatedOn = DateTime.UtcNow };
                 SongArtist dbSongArtist = new SongArtist { Artist = dbArtist, Song = dbSong };
                 dbSongArtists.Add(dbSongArtist);
             }

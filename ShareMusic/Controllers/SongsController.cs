@@ -47,20 +47,23 @@ namespace ShareMusic.Controllers
             }
 
             List<string> artists = this.splitterService.SplitArtistName(inputModel.Artist).ToList();
-            //int songId = this.songsService.CreateSong(inputModel.Song, artists);
+            int songId = this.songsService.CreateSong(inputModel.Song, artists);
 
-            //string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
-            //if (!string.IsNullOrEmpty(videoId))
-            //{
-            //    this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
-            //}
+            string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
+            if (!string.IsNullOrEmpty(videoId))
+            {
+                this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
+            }
 
-            // TODO: Add lyrics
-            this.geniusLyrics.GetLyrics(inputModel.Song, string.Join(" ", artists));
+            string lyrics = this.geniusLyrics.AskForLyrics(inputModel.Song, string.Join(" ", artists));
+            if (!string.IsNullOrEmpty(lyrics))
+            {
+                this.metadataService.AddMetadataInfo(songId, "Lyrics", lyrics);
+            }
 
-            // this.songsService.UpdateSongsSystemData(songId);
+            this.songsService.UpdateSongsSystemData(songId);
 
-            return Redirect("Home");
+            return Redirect("/");
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace ShareMusic.Models.GeniusLyricsDataProvider
+﻿namespace ShareMusic.Models.GeniusLyricsDataProvider.Search
 {
-    public class RootObject
+    public class SearchLyricsModel
     {
         public Meta meta { get; set; }
 

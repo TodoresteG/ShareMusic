@@ -6,14 +6,15 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using ShareMusic.DataProviders.Interfaces;
-using ShareMusic.Models.GeniusLyricsDataProvider;
+using ShareMusic.Models.GeniusLyricsDataProvider.Search;
+using ShareMusic.Models.GeniusLyricsDataProvider.Get;
 using System.Linq;
 
 namespace ShareMusic.DataProviders
 {
     public class GeniusLyricsDataProvider : IGeniusLyricsDataProvider
     {
-        private const string BaseUrl = "https://api.genius.com/";
+        private const string BaseUrl = "https://api.genius.com";
 
         private readonly IConfiguration configuration;
         private string bearerToken;
@@ -27,19 +28,20 @@ namespace ShareMusic.DataProviders
         }
 
 
-        public void GetLyrics(string songTitle, string artist)
+        public string AskForLyrics(string songTitle, string artist)
         {
             this.Initialize();
             songTitle = songTitle.Trim();
             artist = artist.Trim();
 
-            string apiSearchPath = this.AskForLyrics(songTitle, artist);
+            string apiSearchPath = this.SearchForLyrics(songTitle, artist);
             if (string.IsNullOrEmpty(apiSearchPath))
             {
-                return;
+                return string.Empty;
             }
 
-
+            string lyricsContent = this.GetLyrics(apiSearchPath);
+            return lyricsContent;
         }
 
         private void Initialize()
@@ -61,22 +63,43 @@ namespace ShareMusic.DataProviders
             this.http.DefaultRequestHeaders.Add("Authorization", $"Bearer {this.bearerToken}");
         }
 
-        private string AskForLyrics(string songTitle, string artist)
+        private string SearchForLyrics(string songTitle, string artist)
         {
             try
             {
-                string result = this.RequestGet(BaseUrl + $"search?q={artist} {songTitle}");
-                RootObject geniusLyricsResponse = JsonSerializer.Deserialize<RootObject>(result);
+                string result = this.RequestGet(BaseUrl + $"/search?q={artist} {songTitle}");
+                SearchLyricsModel searchLyricsResponse = JsonSerializer.Deserialize<SearchLyricsModel>(result);
 
                 string apiPath = string.Empty;
-                if (geniusLyricsResponse.meta.status == 200)
+                if (searchLyricsResponse.meta.status == 200)
                 {
-                    apiPath = geniusLyricsResponse.response.hits
+                    apiPath = searchLyricsResponse.response.hits
                         .Where(h => h.type == "song")
                         .FirstOrDefault(h => h.result.lyrics_state == "complete" && h.result.title == songTitle).result.api_path;
                 }
 
                 return apiPath;
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
+
+        private string GetLyrics(string apiSearchPath) 
+        {
+            try
+            {
+                string result = this.RequestGet(BaseUrl + apiSearchPath + "?text_format=html");
+                GetLyricsModel getLyricsResponse = JsonSerializer.Deserialize<GetLyricsModel>(result);
+
+                string embedContent = string.Empty;
+                if (getLyricsResponse.meta.status == 200 && getLyricsResponse.response.song.lyrics_state == "complete")
+                {
+                    embedContent = getLyricsResponse.response.song.embed_content;
+                }
+
+                return embedContent;
             }
             catch (Exception e)
             {
