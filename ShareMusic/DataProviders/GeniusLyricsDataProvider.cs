@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using ShareMusic.DataProviders.Interfaces;
+using ShareMusic.Models.GeniusLyricsDataProvider;
+using System.Linq;
 
 namespace ShareMusic.DataProviders
 {
@@ -28,7 +32,14 @@ namespace ShareMusic.DataProviders
             this.Initialize();
             songTitle = songTitle.Trim();
             artist = artist.Trim();
-            string httpResult = this.AskForLyrics(songTitle, artist);
+
+            string apiSearchPath = this.AskForLyrics(songTitle, artist);
+            if (string.IsNullOrEmpty(apiSearchPath))
+            {
+                return;
+            }
+
+
         }
 
         private void Initialize()
@@ -55,9 +66,19 @@ namespace ShareMusic.DataProviders
             try
             {
                 string result = this.RequestGet(BaseUrl + $"search?q={artist} {songTitle}");
-                return result;
+                RootObject geniusLyricsResponse = JsonSerializer.Deserialize<RootObject>(result);
+
+                string apiPath = string.Empty;
+                if (geniusLyricsResponse.meta.status == 200)
+                {
+                    apiPath = geniusLyricsResponse.response.hits
+                        .Where(h => h.type == "song")
+                        .FirstOrDefault(h => h.result.lyrics_state == "complete" && h.result.title == songTitle).result.api_path;
+                }
+
+                return apiPath;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return string.Empty;
             }
