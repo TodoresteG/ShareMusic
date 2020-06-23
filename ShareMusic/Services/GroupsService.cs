@@ -94,6 +94,13 @@ namespace ShareMusic.Services
                     GroupUserNames = this.context.GroupUsers
                         .Where(gu => gu.GroupId == groupId)
                         .Select(gu => gu.User.UserName).ToList(),
+                    Songs = this.context.GroupSongs
+                        .Where(gs => gs.GroupId == groupId)
+                        .Select(gs => new GroupSongsViewModel 
+                        {
+                            Name = gs.Song.Name,
+                            SongId = gs.SongId,
+                        }).ToList(),
                 }).FirstOrDefault();
 
             return groupDetails;
