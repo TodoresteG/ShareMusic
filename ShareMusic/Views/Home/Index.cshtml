@@ -8,9 +8,11 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<div>
+<ul class="row list-unstyled">
     @foreach (var song in Model.NewestSongs)
     {
-        <partial name="_SongCardPartialView" model="@song" />
+        <li class="col-md-4">
+            <partial name="_SongCardPartialView" model="@song" />
+        </li>
     }
-</div>
+</ul>

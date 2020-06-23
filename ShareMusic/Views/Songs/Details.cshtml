@@ -1,0 +1,18 @@
+﻿@model SongDetailsViewModel
+@{
+    ViewData["Title"] = $"{Model.Name} Details";
+}
+
+    <div class="row justify-content-center">
+        <h1 class="text-center mb-md-3">@Model.Name</h1>
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+            <iframe width="1280" height="841" src="https://www.youtube.com/embed/@Model.VideoId" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+            @Html.Raw(Model.EmbededLyrics)
+        </div>
+        <div class="col-md-4"></div>
+    </div>

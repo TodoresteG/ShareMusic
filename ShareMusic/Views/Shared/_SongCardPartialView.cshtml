@@ -1,7 +1,7 @@
 ﻿@model SongCardViewModel
 
 <div>
-    <a asp-controller="Songs" asp-action="Details" asp-route-id="@Model.SongId">
+    <a asp-controller="Songs" asp-action="Details" asp-route-songId="@Model.SongId">
         <img src="https://img.youtube.com/vi/@Model.VideoId/mqdefault.jpg" alt="@Model.Name" />
     </a>
 

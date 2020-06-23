@@ -57,22 +57,34 @@ namespace ShareMusic.Services
             return dbSong.Id;
         }
 
-        public HomeRecentSongsViewModel GetRecentSongs()
+        public SongDetailsViewModel GetDetails(int songId)
         {
-            HomeRecentSongsViewModel viewModel = this.context.Songs
-                .OrderByDescending(s => s.CreatedOn)
-                .Take(20)
-                .Select(s => new HomeRecentSongsViewModel
+            SongDetailsViewModel viewModel = this.context.Songs
+                .Where(s => s.Id == songId)
+                .Select(s => new SongDetailsViewModel
                 {
-                    NewestSongs = s.Metadata.Where(m => m.SongId == s.Id && m.Type == "YouTubeVideo").Select(m => new SongCardViewModel
-                    {
-                        SongId = m.Song.Id,
-                        Name = m.Song.Name,
-                        VideoId = m.Value,
-                    }).ToList(),
+                    Name = s.Name,
+                    EmbededLyrics = s.Metadata.FirstOrDefault(m => m.Type == "Lyrics" && m.SongId == songId).Value,
+                    VideoId = s.Metadata.FirstOrDefault(m => m.Type == "YouTubeVideo" && m.SongId == songId).Value,
                 }).FirstOrDefault();
 
             return viewModel;
+        }
+
+        public HomeRecentSongsViewModel GetRecentSongs()
+        {
+            List<SongCardViewModel> newestSongs = this.context.Songs
+                .OrderByDescending(s => s.CreatedOn)
+                .Take(20)
+                .Select(s => new SongCardViewModel
+                {
+                    SongId = s.Id,
+                    Name = s.Name,
+                    VideoId = s.Metadata.FirstOrDefault(m => m.SongId == s.Id).Value,
+
+                }).ToList();
+
+            return new HomeRecentSongsViewModel { NewestSongs = newestSongs };
         }
 
         public void UpdateSongsSystemData(int songId)
