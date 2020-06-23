@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -86,7 +87,8 @@ namespace ShareMusic.Controllers
                 return Redirect("/");
             }
 
-            SongDetailsViewModel viewModel = this.songsService.GetDetails(songId);
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            SongDetailsViewModel viewModel = this.songsService.GetDetails(songId, userId);
             return this.View(viewModel);
         }
     }

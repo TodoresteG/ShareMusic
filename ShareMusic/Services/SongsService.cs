@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
 using ShareMusic.Models.Home;
@@ -57,8 +58,12 @@ namespace ShareMusic.Services
             return dbSong.Id;
         }
 
-        public SongDetailsViewModel GetDetails(int songId)
+        public SongDetailsViewModel GetDetails(int songId, string userId)
         {
+            List<string> userGroups = this.context.Groups
+                .Where(g => g.OwnerId == userId && g.IsDeleted == false)
+                .Select(g => g.Name).ToList();
+
             SongDetailsViewModel viewModel = this.context.Songs
                 .Where(s => s.Id == songId)
                 .Select(s => new SongDetailsViewModel
@@ -66,6 +71,7 @@ namespace ShareMusic.Services
                     Name = s.Name,
                     EmbededLyrics = s.Metadata.FirstOrDefault(m => m.Type == "Lyrics" && m.SongId == songId).Value,
                     VideoId = s.Metadata.FirstOrDefault(m => m.Type == "YouTubeVideo" && m.SongId == songId).Value,
+                    UserGroups = new MultiSelectList(userGroups),
                 }).FirstOrDefault();
 
             return viewModel;
