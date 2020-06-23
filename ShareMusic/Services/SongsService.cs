@@ -68,6 +68,7 @@ namespace ShareMusic.Services
                 .Where(s => s.Id == songId)
                 .Select(s => new SongDetailsViewModel
                 {
+                    Id = s.Id,
                     Name = s.Name,
                     EmbededLyrics = s.Metadata.FirstOrDefault(m => m.Type == "Lyrics" && m.SongId == songId).Value,
                     VideoId = s.Metadata.FirstOrDefault(m => m.Type == "YouTubeVideo" && m.SongId == songId).Value,

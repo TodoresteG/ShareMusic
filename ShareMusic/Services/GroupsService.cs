@@ -21,6 +21,23 @@ namespace ShareMusic.Services
             this.userManager = userManager;
         }
 
+        public string AddSong(string selectedGroup, int songId)
+        {
+            Song song = this.context.Songs.Find(songId);
+            Group group = this.context.Groups.FirstOrDefault(g => g.Name == selectedGroup);
+            GroupSong groupSong = new GroupSong
+            {
+                CreatedOn = DateTime.UtcNow,
+                Group = group,
+                Song = song,
+            };
+
+            group.Songs.Add(groupSong);
+            this.context.SaveChanges();
+
+            return group.Id;
+        }
+
         public void AddUsers(UsersListViewComponentViewModel inputModel, string groupId)
         {
             List<string> usersInGroup = this.context.GroupUsers

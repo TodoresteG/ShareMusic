@@ -34,7 +34,7 @@ namespace ShareMusic.Controllers
             inputModel.OwnerId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             this.groupsService.CreateGroup(inputModel);
 
-            return Redirect("List");
+            return this.Redirect("List");
         }
 
         public IActionResult List() 
@@ -54,7 +54,7 @@ namespace ShareMusic.Controllers
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
             {
-                return RedirectToAction("List");
+                return this.RedirectToAction("List");
             }
 
             GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
@@ -67,7 +67,7 @@ namespace ShareMusic.Controllers
             if (!ModelState.IsValid)
             {
                 GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
-                return View(groupDetails);
+                return this.View(groupDetails);
             }
 
             this.groupsService.AddUsers(inputModel, id);
@@ -79,7 +79,7 @@ namespace ShareMusic.Controllers
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupName))
             {
-                return RedirectToAction("List");
+                return this.RedirectToAction("List");
             }
 
             this.groupsService.RemoveUser(username, groupName);
@@ -96,7 +96,19 @@ namespace ShareMusic.Controllers
 
             this.groupsService.DeleteGroup(groupName);
 
-            return RedirectToAction("List");
+            return this.RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult AddSong(string selectedGroup, int songId) 
+        {
+            if (string.IsNullOrEmpty(selectedGroup) || string.IsNullOrWhiteSpace(selectedGroup) || songId <= 0)
+            {
+                return this.Redirect("/");
+            }
+
+            string groupId = this.groupsService.AddSong(selectedGroup, songId);
+            return this.RedirectToAction("Details", new { id = groupId });
         }
     }
 }

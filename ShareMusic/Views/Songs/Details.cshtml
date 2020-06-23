@@ -10,9 +10,12 @@
 <div class="row justify-content-center">
     <div class="col-md-12 d-md-flex justify-content-between md-md-5">
         <h1>@Model.Name</h1>
-        <div>
-            <input type="button" class="btn btn-success js-open-form" value="Add to Group" />
-        </div>
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <div>
+                <input type="button" class="btn btn-success js-open-form" value="Add to Group" />
+            </div>
+        }
     </div>
 
     <div class="row justify-content-center hidden-form" style="display: none">
@@ -23,6 +26,7 @@
                     <label class="ml-md-2" asp-for="UserGroups"></label>
                     <select asp-for="SelectedGroup" asp-items="@Model.UserGroups" class="selectpicker" data-live-search="true">
                     </select>
+                    <input type="text" name="songId" value="@Model.Id" hidden />
                 </div>
                 <div class="form-group">
                     <input class="btn btn-success" type="submit" value="Add" />

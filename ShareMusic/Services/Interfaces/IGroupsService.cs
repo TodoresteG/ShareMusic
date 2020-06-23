@@ -20,5 +20,7 @@ namespace ShareMusic.Services.Interfaces
         void RemoveUser(string username, string groupName);
 
         void DeleteGroup(string groupName);
+
+        string AddSong(string selectedGroup, int songId);
     }
 }
