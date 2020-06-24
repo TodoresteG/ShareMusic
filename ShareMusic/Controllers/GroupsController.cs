@@ -110,5 +110,22 @@ namespace ShareMusic.Controllers
             string groupId = this.groupsService.AddSong(selectedGroup, songId);
             return this.RedirectToAction("Details", new { id = groupId });
         }
+
+        [HttpPost]
+        public IActionResult RemoveSong(int songId, string groupName) 
+        {
+            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName) || songId <= 0)
+            {
+                return this.RedirectToAction("List");
+            }
+
+            string groupId = this.groupsService.RemoveSong(songId, groupName);
+            if (string.IsNullOrEmpty(groupId))
+            {
+                return this.RedirectToAction("List");
+            }
+
+            return this.RedirectToAction("Details", new { id = groupId });
+        }
     }
 }

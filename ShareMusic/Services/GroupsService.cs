@@ -25,6 +25,13 @@ namespace ShareMusic.Services
         {
             Song song = this.context.Songs.Find(songId);
             Group group = this.context.Groups.FirstOrDefault(g => g.Name == selectedGroup);
+
+            GroupSong existingGroupSong = this.context.GroupSongs.FirstOrDefault(gs => gs.GroupId == group.Id && gs.SongId == song.Id);
+            if (existingGroupSong != null)
+            {
+                return existingGroupSong.GroupId;
+            }
+
             GroupSong groupSong = new GroupSong
             {
                 CreatedOn = DateTime.UtcNow,
@@ -36,6 +43,30 @@ namespace ShareMusic.Services
             this.context.SaveChanges();
 
             return group.Id;
+        }
+
+        public string RemoveSong(int songId, string groupName)
+        {
+            string groupId = this.context.Groups
+                .Where(g => g.Name == groupName)
+                .Select(g => g.Id)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(groupId))
+            {
+                return string.Empty;
+            }
+
+            GroupSong groupSong = this.context.GroupSongs.FirstOrDefault(gs => gs.GroupId == groupId && gs.SongId == songId);
+            if (groupSong == null)
+            {
+                return groupId;
+            }
+
+            this.context.GroupSongs.Remove(groupSong);
+            this.context.SaveChanges();
+
+            return groupId;
         }
 
         public void AddUsers(UsersListViewComponentViewModel inputModel, string groupId)
