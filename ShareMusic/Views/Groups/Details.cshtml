@@ -22,6 +22,16 @@
             </form>
         </div>
     }
+    @if (!Model.IsUserInGroup)
+    {
+        <div class="col-md-2 align-self-center">
+            <form asp-controller="Requests" asp-action="Join" method="post">
+                <input type="text" name="groupId" value="@Model.Id" hidden />
+                <input type="text" name="userName" value="@this.User.Identity.Name" hidden />
+                <input class="btn btn-success text-white" type="submit" value="Join" />
+            </form>
+        </div>
+    }
 </div>
 
 <div class="row">

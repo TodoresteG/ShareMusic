@@ -13,7 +13,7 @@ namespace ShareMusic.Services.Interfaces
 
         GroupsSearchResultViewModel SearchGroups(string groupName);
 
-        GroupDetailsViewModel GetGroupDetails(string groupId);
+        GroupDetailsViewModel GetGroupDetails(string groupId, string userId);
 
         void AddUsers(UsersListViewComponentViewModel inputModel, string groupId);
 

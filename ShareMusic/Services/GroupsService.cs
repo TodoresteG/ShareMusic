@@ -130,13 +130,14 @@ namespace ShareMusic.Services
             this.context.SaveChanges();
         }
 
-        public GroupDetailsViewModel GetGroupDetails(string groupId)
+        public GroupDetailsViewModel GetGroupDetails(string groupId, string userId)
         {
             GroupDetailsViewModel groupDetails = this.context.Groups
                 .Where(g => g.IsDeleted == false)
                 .Where(g => g.Id == groupId)
                 .Select(g => new GroupDetailsViewModel
                 {
+                    Id = g.Id,
                     Name = g.Name,
                     OwnerName = g.Owner.UserName,
                     GroupUserNames = this.context.GroupUsers
@@ -149,6 +150,8 @@ namespace ShareMusic.Services
                             Name = gs.Song.Name,
                             SongId = gs.SongId,
                         }).ToList(),
+                    IsUserInGroup = this.context.GroupUsers
+                        .Any(gu => gu.GroupId == groupId && gu.UserId == userId),
                 }).FirstOrDefault();
 
             return groupDetails;

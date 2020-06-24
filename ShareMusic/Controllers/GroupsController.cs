@@ -57,7 +57,8 @@ namespace ShareMusic.Controllers
                 return this.RedirectToAction("List");
             }
 
-            GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id, userId);
             return this.View(groupDetails);
         }
 
@@ -66,7 +67,8 @@ namespace ShareMusic.Controllers
         {
             if (!ModelState.IsValid)
             {
-                GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id);
+                string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                GroupDetailsViewModel groupDetails = this.groupsService.GetGroupDetails(id, userId);
                 return this.View(groupDetails);
             }
 
