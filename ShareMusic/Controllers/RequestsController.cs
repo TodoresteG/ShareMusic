@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShareMusic.Models.Requests;
 using ShareMusic.Services.Interfaces;
 
 namespace ShareMusic.Controllers
@@ -28,6 +29,17 @@ namespace ShareMusic.Controllers
             this.requestsService.Join(groupId, userName, userId);
 
             return View();
+        }
+
+        public IActionResult All(string groupId) 
+        {
+            if (string.IsNullOrEmpty(groupId) || string.IsNullOrWhiteSpace(groupId))
+            {
+                return this.Redirect("/");
+            }
+
+            AllGroupRequestsViewModel viewModel = this.requestsService.ListAllReuqestsForGroup(groupId);
+            return this.View(viewModel);
         }
     }
 }

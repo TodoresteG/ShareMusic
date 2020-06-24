@@ -1,0 +1,13 @@
+﻿@model AllGroupRequestsViewModel
+@{
+    ViewData["Title"] = "All";
+}
+
+    <ul class="list-group">
+        @foreach (var request in Model.Reuests)
+        {
+            <li class="list-group-item">
+                @request.Name
+            </li>
+        }
+    </ul>

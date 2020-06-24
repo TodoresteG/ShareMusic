@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
+using ShareMusic.Models.Requests;
 using ShareMusic.Services.Interfaces;
 
 namespace ShareMusic.Services
@@ -38,6 +40,21 @@ namespace ShareMusic.Services
             this.context.Requests.Add(request);
             this.context.GroupRequests.Add(groupRequest);
             this.context.SaveChanges();
+        }
+
+        public AllGroupRequestsViewModel ListAllReuqestsForGroup(string groupId)
+        {
+            List<GroupRequestViewModel> requests = this.context.GroupRequests
+                .Where(gr => gr.GroupId == groupId)
+                .Select(gr => new GroupRequestViewModel
+                {
+                    GroupId = gr.GroupId,
+                    GroupName = gr.Group.Name,
+                    Name = gr.Request.Name,
+                    RequestId = gr.RequestId,
+                }).ToList();
+
+            return new AllGroupRequestsViewModel { Reuests = requests };
         }
     }
 }

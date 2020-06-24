@@ -9,12 +9,13 @@
 </asp:Content>
 
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-8">
         <h1>@Model.Name @ViewData["Title"]</h1>
         <p>Owner name: @Model.OwnerName</p>
     </div>
     @if (Model.OwnerName == this.User.Identity.Name)
     {
+        <a class="btn btn-info col-md-2 align-self-center" asp-controller="Requests" asp-action="All" asp-route-groupId="@Model.Id">Group Requests</a>
         <div class="col-md-2 align-self-center">
             <form asp-controller="Groups" asp-action="DeleteGroup" method="post">
                 <input type="text" name="groupName" value="@Model.Name" hidden />
