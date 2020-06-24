@@ -4,6 +4,10 @@ namespace ShareMusic.Models.Requests
 {
     public class AllGroupRequestsViewModel
     {
-        public IEnumerable<GroupRequestViewModel> Reuests { get; set; }
+        public string GroupName { get; set; }
+
+        public string GroupId { get; set; }
+
+        public IEnumerable<GroupRequestViewModel> Requests { get; set; }
     }
 }

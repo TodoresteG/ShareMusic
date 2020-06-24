@@ -48,13 +48,21 @@ namespace ShareMusic.Services
                 .Where(gr => gr.GroupId == groupId)
                 .Select(gr => new GroupRequestViewModel
                 {
-                    GroupId = gr.GroupId,
-                    GroupName = gr.Group.Name,
                     Name = gr.Request.Name,
                     RequestId = gr.RequestId,
                 }).ToList();
 
-            return new AllGroupRequestsViewModel { Reuests = requests };
+            string groupName = this.context.Groups
+                .Where(g => g.Id == groupId)
+                .Select(g => g.Name)
+                .FirstOrDefault();
+
+            return new AllGroupRequestsViewModel
+            {
+                GroupId = groupId,
+                GroupName = groupName,
+                Requests = requests,
+            };
         }
     }
 }

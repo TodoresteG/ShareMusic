@@ -3,11 +3,28 @@
     ViewData["Title"] = "All";
 }
 
-    <ul class="list-group">
-        @foreach (var request in Model.Reuests)
-        {
-            <li class="list-group-item">
-                @request.Name
-            </li>
-        }
-    </ul>
+<h1>@Model.GroupName Join Requests</h1>
+<ul class="list-group">
+    @foreach (var request in Model.Requests)
+    {
+        <li class="list-group-item d-md-flex justify-content-between">
+            <p class="lead">@request.Name</p>
+            <div class="d-md-flex">
+                <div class="mr-md-4">
+                    <form asp-controller="Requests" asp-action="Approve" method="post">
+                        <input type="text" name="groupId" value="@Model.GroupId" hidden />
+                        <input type="text" name="requestId" value="@request.RequestId" hidden />
+                        <input onclick="return confirm('Are you sure you want to approve this request?');" class="btn btn-success text-white" type="submit" value="Approve" />
+                    </form>
+                </div>
+                <div>
+                    <form asp-controller="Requests" asp-action="Decline" method="post">
+                        <input type="text" name="groupId" value="@Model.GroupId" hidden />
+                        <input type="text" name="requestId" value="@request.RequestId" hidden />
+                        <input onclick="return confirm('Are you sure you want to decline this request?');" class="btn btn-danger text-white" type="submit" value="Decline" />
+                    </form>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
