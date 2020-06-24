@@ -19,20 +19,27 @@
     </div>
 
     <div class="row justify-content-center hidden-form" style="display: none">
-        <form class="col-md-10" asp-controller="Groups" asp-action="AddSong" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="d-md-flex justify-content-between">
-                <div class="form-group">
-                    <label class="ml-md-2" asp-for="UserGroups"></label>
-                    <select asp-for="SelectedGroup" asp-items="@Model.UserGroups" class="selectpicker" data-live-search="true">
-                    </select>
-                    <input type="text" name="songId" value="@Model.Id" hidden />
+        @if (Model.UserGroups.Count() == 0)
+        {
+            <p class="lead">Sorry you can't add this song to a group, because you don't have one. Please create one and come back</p>
+        }
+        else
+        {
+            <form class="col-md-10" asp-controller="Groups" asp-action="AddSong" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="d-md-flex justify-content-between">
+                    <div class="form-group">
+                        <label class="ml-md-2" asp-for="UserGroups"></label>
+                        <select asp-for="SelectedGroup" asp-items="@Model.UserGroups" class="selectpicker" data-live-search="true">
+                        </select>
+                        <input type="text" name="songId" value="@Model.Id" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" value="Add" />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input class="btn btn-success" type="submit" value="Add" />
-                </div>
-            </div>
-        </form>
+            </form>
+        }
     </div>
 
     <div class="col-md-12">

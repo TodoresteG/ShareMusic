@@ -75,7 +75,8 @@ namespace ShareMusic.DataProviders
                 {
                     apiPath = searchLyricsResponse.response.hits
                         .Where(h => h.type == "song")
-                        .FirstOrDefault(h => h.result.lyrics_state == "complete" && h.result.title == songTitle).result.api_path;
+                        .Where(h => h.result.lyrics_state == "complete" && h.result.title.ToLower() == songTitle.ToLower())
+                        .FirstOrDefault().result.api_path;
                 }
 
                 return apiPath;
