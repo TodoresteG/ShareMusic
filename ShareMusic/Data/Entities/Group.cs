@@ -11,6 +11,7 @@ namespace ShareMusic.Data.Entities
             this.Id = Guid.NewGuid().ToString();
             this.Songs = new HashSet<GroupSong>();
             this.Users = new HashSet<GroupUser>();
+            this.Requests = new HashSet<GroupRequest>();
         }
 
         public string Name { get; set; }
@@ -22,5 +23,7 @@ namespace ShareMusic.Data.Entities
         public ICollection<GroupSong> Songs { get; set; }
 
         public ICollection<GroupUser> Users { get; set; }
+
+        public ICollection<GroupRequest> Requests { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace ShareMusic.Data
 
         public DbSet<Group> Groups { get; set; }
 
+        public DbSet<GroupRequest> GroupRequests { get; set; }
+
         public DbSet<GroupSong> GroupSongs { get; set; }
 
         public DbSet<GroupUser> GroupUsers { get; set; }
@@ -26,6 +28,8 @@ namespace ShareMusic.Data
         public DbSet<Playlist> Playlists { get; set; }
 
         public DbSet<PlaylistSong> PlaylistSongs { get; set; }
+
+        public DbSet<Request> Requests { get; set; }
 
         public DbSet<Song> Songs { get; set; }
 

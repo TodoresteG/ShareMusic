@@ -17,6 +17,11 @@ namespace ShareMusic.Data.Configurations
                 .HasMany(g => g.Users)
                 .WithOne(u => u.Group)
                 .HasForeignKey(u => u.GroupId);
+
+            group
+                .HasMany(g => g.Requests)
+                .WithOne(gr => gr.Group)
+                .HasForeignKey(gr => gr.GroupId);
         }
     }
 }
