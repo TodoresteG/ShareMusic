@@ -14,6 +14,7 @@
                     <form asp-controller="Requests" asp-action="Approve" method="post">
                         <input type="text" name="groupId" value="@Model.GroupId" hidden />
                         <input type="text" name="requestId" value="@request.RequestId" hidden />
+                        <input type="text" name="userName" value="@request.UserName" hidden />
                         <input onclick="return confirm('Are you sure you want to approve this request?');" class="btn btn-success text-white" type="submit" value="Approve" />
                     </form>
                 </div>
@@ -21,6 +22,7 @@
                     <form asp-controller="Requests" asp-action="Decline" method="post">
                         <input type="text" name="groupId" value="@Model.GroupId" hidden />
                         <input type="text" name="requestId" value="@request.RequestId" hidden />
+                        <input type="text" name="userName" value="@request.UserName" hidden />
                         <input onclick="return confirm('Are you sure you want to decline this request?');" class="btn btn-danger text-white" type="submit" value="Decline" />
                     </form>
                 </div>

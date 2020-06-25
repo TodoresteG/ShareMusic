@@ -41,5 +41,17 @@ namespace ShareMusic.Controllers
             AllGroupRequestsViewModel viewModel = this.requestsService.ListAllReuqestsForGroup(groupId);
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult Approve(string groupId, string requestId, string userName) 
+        {
+            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(requestId) || string.IsNullOrEmpty(userName))
+            {
+                return this.RedirectToAction("List", "Groups");
+            }
+
+            this.requestsService.ApproveRequest(groupId, requestId, userName);
+            return this.RedirectToAction("Details", "Groups", new { id = groupId });
+        }
     }
 }

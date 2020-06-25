@@ -7,5 +7,7 @@ namespace ShareMusic.Services.Interfaces
         void Join(string groupId, string userName, string userId);
 
         AllGroupRequestsViewModel ListAllReuqestsForGroup(string groupId);
+
+        void ApproveRequest(string groupId, string requestId, string userName);
     }
 }

@@ -17,6 +17,30 @@ namespace ShareMusic.Services
             this.context = context;
         }
 
+        public void ApproveRequest(string groupId, string requestId, string userName)
+        {
+            Request request = this.context.Requests.FirstOrDefault(r => r.Id == requestId);
+            GroupRequest groupRequest = this.context.GroupRequests.FirstOrDefault(gr => gr.GroupId == groupId && gr.RequestId == requestId);
+
+            if (request == null || groupRequest == null)
+            {
+                return;
+            }
+
+            User userToJoin = this.context.Users.FirstOrDefault(u => u.UserName == userName) as User;
+            GroupUser groupUser = new GroupUser
+            {
+                CreatedOn = DateTime.UtcNow,
+                GroupId = groupId,
+                User = userToJoin,
+            };
+
+            this.context.GroupUsers.Add(groupUser);
+            this.context.GroupRequests.Remove(groupRequest);
+            this.context.Requests.Remove(request);
+            this.context.SaveChanges();
+        }
+
         public void Join(string groupId, string userName, string userId)
         {
             Request request = new Request
@@ -50,6 +74,7 @@ namespace ShareMusic.Services
                 {
                     Name = gr.Request.Name,
                     RequestId = gr.RequestId,
+                    UserName = gr.Request.Name.Split(" - ", StringSplitOptions.RemoveEmptyEntries)[0],
                 }).ToList();
 
             string groupName = this.context.Groups
