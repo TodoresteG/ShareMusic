@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ShareMusic.Common;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
 using ShareMusic.Models.Home;
@@ -70,8 +71,8 @@ namespace ShareMusic.Services
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    EmbededLyrics = s.Metadata.FirstOrDefault(m => m.Type == "Lyrics" && m.SongId == songId).Value,
-                    VideoId = s.Metadata.FirstOrDefault(m => m.Type == "YouTubeVideo" && m.SongId == songId).Value,
+                    EmbededLyrics = s.Metadata.FirstOrDefault(m => m.Type == GlobalConstants.Lyrics && m.SongId == songId).Value,
+                    VideoId = s.Metadata.FirstOrDefault(m => m.Type == GlobalConstants.YouTubeVideo && m.SongId == songId).Value,
                     UserGroups = new MultiSelectList(userGroups),
                 }).FirstOrDefault();
 
@@ -102,7 +103,7 @@ namespace ShareMusic.Services
                 {
                     SongId = s.Id,
                     Name = s.Name,
-                    VideoId = s.Metadata.FirstOrDefault(m => m.SongId == s.Id && m.Type == "YouTubeVideo").Value,
+                    VideoId = s.Metadata.FirstOrDefault(m => m.SongId == s.Id && m.Type == GlobalConstants.YouTubeVideo).Value,
                 }).ToList();
 
             return new SongsSearchResultViewModel { SearchResults = results, SearchText = searchText, };

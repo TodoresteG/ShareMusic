@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMusic.Models.Groups;
 using ShareMusic.Services.Interfaces;
+using ShareMusic.Extensions;
 
 namespace ShareMusic.Controllers
 {
@@ -52,7 +53,7 @@ namespace ShareMusic.Controllers
 
         public IActionResult Details(string id)
         {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+            if (id.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.RedirectToAction("List");
             }
@@ -79,7 +80,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult RemoveUser(string username, string groupId)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupId))
+            if (username.IsNullOrEmptyOrWhiteSpace() || groupId.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.RedirectToAction("List");
             }
@@ -91,7 +92,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult DeleteGroup(string groupName) 
         {
-            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))
+            if (groupName.IsNullOrEmptyOrWhiteSpace())
             {
                 return RedirectToAction("List");
             }
@@ -104,7 +105,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult AddSong(string selectedGroup, int songId) 
         {
-            if (string.IsNullOrEmpty(selectedGroup) || string.IsNullOrWhiteSpace(selectedGroup) || songId <= 0)
+            if (selectedGroup.IsNullOrEmptyOrWhiteSpace() || songId <= 0)
             {
                 return this.Redirect("/");
             }
@@ -116,7 +117,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult RemoveSong(int songId, string groupName) 
         {
-            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName) || songId <= 0)
+            if (groupName.IsNullOrEmptyOrWhiteSpace() || songId <= 0)
             {
                 return this.RedirectToAction("List");
             }

@@ -4,9 +4,11 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ShareMusic.Common;
 using ShareMusic.DataProviders.Interfaces;
 using ShareMusic.Models.Songs;
 using ShareMusic.Services.Interfaces;
+using ShareMusic.Extensions;
 
 namespace ShareMusic.Controllers
 {
@@ -58,7 +60,7 @@ namespace ShareMusic.Controllers
             string videoId = this.youtubeDataProvider.SearchVideo(string.Join(" ", artists), inputModel.Song);
             if (!string.IsNullOrEmpty(videoId))
             {
-                this.metadataService.AddMetadataInfo(songId, "YoutubeVideo", videoId);
+                this.metadataService.AddMetadataInfo(songId, GlobalConstants.YouTubeVideo, videoId);
             }
             else
             {
@@ -68,7 +70,7 @@ namespace ShareMusic.Controllers
             string lyrics = this.geniusLyrics.AskForLyrics(inputModel.Song, string.Join(" ", artists));
             if (!string.IsNullOrEmpty(lyrics))
             {
-                this.metadataService.AddMetadataInfo(songId, "Lyrics", lyrics);
+                this.metadataService.AddMetadataInfo(songId, GlobalConstants.Lyrics, lyrics);
             }
             else
             {
@@ -94,7 +96,7 @@ namespace ShareMusic.Controllers
 
         public IActionResult Search(string searchText) 
         {
-            if (string.IsNullOrEmpty(searchText) || string.IsNullOrWhiteSpace(searchText))
+            if (searchText.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.Redirect("/");
             }

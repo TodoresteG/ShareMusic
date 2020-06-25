@@ -7,6 +7,7 @@ using ShareMusic.Data;
 using ShareMusic.Data.Entities;
 using ShareMusic.Models.Groups;
 using ShareMusic.Services.Interfaces;
+using ShareMusic.Extensions;
 
 namespace ShareMusic.Services
 {
@@ -206,7 +207,7 @@ namespace ShareMusic.Services
 
         public GroupsSearchResultViewModel SearchGroups(string groupName)
         {
-            if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))
+            if (groupName.IsNullOrEmptyOrWhiteSpace())
             {
                 return new GroupsSearchResultViewModel { Count = 0, SearchResults = new List<GroupsSearchResultListViewModel>(), };
             }

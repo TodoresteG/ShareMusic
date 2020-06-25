@@ -1,4 +1,5 @@
 ﻿using System;
+using ShareMusic.Common;
 using ShareMusic.Data;
 using ShareMusic.Data.Entities;
 using ShareMusic.Services.Interfaces;
@@ -16,7 +17,7 @@ namespace ShareMusic.Services
 
         public void AddMetadataInfo(int songId, string type, string value)
         {
-            if (type == "Lyrics" || type == "YoutubeVideo")
+            if (type == GlobalConstants.Lyrics || type == GlobalConstants.YouTubeVideo)
             {
                 SongMetadata songMetadata = new SongMetadata
                 {

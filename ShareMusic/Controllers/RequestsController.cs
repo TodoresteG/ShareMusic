@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShareMusic.Extensions;
 using ShareMusic.Models.Requests;
 using ShareMusic.Services.Interfaces;
 
@@ -20,7 +21,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult Join(string groupId, string userName) 
         {
-            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(userName))
+            if (groupId.IsNullOrEmptyOrWhiteSpace() || userName.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.Redirect("/");
             }
@@ -33,7 +34,7 @@ namespace ShareMusic.Controllers
 
         public IActionResult All(string groupId) 
         {
-            if (string.IsNullOrEmpty(groupId) || string.IsNullOrWhiteSpace(groupId))
+            if (groupId.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.Redirect("/");
             }
@@ -45,7 +46,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult Approve(string groupId, string requestId, string userName) 
         {
-            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(requestId) || string.IsNullOrEmpty(userName))
+            if (groupId.IsNullOrEmptyOrWhiteSpace() || requestId.IsNullOrEmptyOrWhiteSpace() || userName.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.RedirectToAction("List", "Groups");
             }
@@ -57,7 +58,7 @@ namespace ShareMusic.Controllers
         [HttpPost]
         public IActionResult Decline(string groupId, string requestId, string userName) 
         {
-            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(requestId) || string.IsNullOrEmpty(userName))
+            if (groupId.IsNullOrEmptyOrWhiteSpace() || requestId.IsNullOrEmptyOrWhiteSpace() || userName.IsNullOrEmptyOrWhiteSpace())
             {
                 return this.RedirectToAction("List", "Groups");
             }
