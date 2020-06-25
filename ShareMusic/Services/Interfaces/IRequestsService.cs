@@ -9,5 +9,7 @@ namespace ShareMusic.Services.Interfaces
         AllGroupRequestsViewModel ListAllReuqestsForGroup(string groupId);
 
         void ApproveRequest(string groupId, string requestId, string userName);
+
+        void DeclineRequest(string groupId, string requestId, string userName);
     }
 }

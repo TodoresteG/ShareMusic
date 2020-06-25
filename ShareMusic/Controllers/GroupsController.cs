@@ -77,15 +77,15 @@ namespace ShareMusic.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveUser(string username, string groupName)
+        public IActionResult RemoveUser(string username, string groupId)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupName))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupId))
             {
                 return this.RedirectToAction("List");
             }
 
-            this.groupsService.RemoveUser(username, groupName);
-            return this.RedirectToAction("List");
+            this.groupsService.RemoveUser(username, groupId);
+            return this.RedirectToAction("Details", new { id = groupId });
         }
 
         [HttpPost]

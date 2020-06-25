@@ -41,6 +41,21 @@ namespace ShareMusic.Services
             this.context.SaveChanges();
         }
 
+        public void DeclineRequest(string groupId, string requestId, string userName)
+        {
+            Request request = this.context.Requests.FirstOrDefault(r => r.Id == requestId);
+            GroupRequest groupRequest = this.context.GroupRequests.FirstOrDefault(gr => gr.GroupId == groupId && gr.RequestId == requestId);
+
+            if (request == null || groupRequest == null)
+            {
+                return;
+            }
+
+            this.context.Requests.Remove(request);
+            this.context.GroupRequests.Remove(groupRequest);
+            this.context.SaveChanges();
+        }
+
         public void Join(string groupId, string userName, string userId)
         {
             Request request = new Request

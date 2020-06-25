@@ -192,12 +192,10 @@ namespace ShareMusic.Services
             return new MultiSelectList(users);
         }
 
-        public void RemoveUser(string username, string groupName)
+        public void RemoveUser(string username, string groupId)
         {
             GroupUser groupUser = this.context.GroupUsers
-                .FirstOrDefault(x => x.Group.Name == groupName && x.User.UserName == username);
-
-            groupUser.ModifiedOn = DateTime.UtcNow;
+                .FirstOrDefault(x => x.GroupId == groupId && x.User.UserName == username);
 
             if (groupUser != null)
             {

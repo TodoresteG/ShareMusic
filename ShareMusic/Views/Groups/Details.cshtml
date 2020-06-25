@@ -46,7 +46,7 @@
                     {
                         <form asp-controller="Groups" asp-action="RemoveUser" method="post">
                             <input type="text" name="username" value="@name" hidden />
-                            <input type="text" name="groupName" value="@Model.Name" hidden />
+                            <input type="text" name="groupId" value="@Model.Id" hidden />
                             <input onclick="return confirm('Are you sure you want to remove this user?');" class="btn btn-danger text-white ml-md-2" type="submit" value="Remove User" />
                         </form>
                     }

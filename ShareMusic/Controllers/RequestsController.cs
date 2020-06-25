@@ -53,5 +53,17 @@ namespace ShareMusic.Controllers
             this.requestsService.ApproveRequest(groupId, requestId, userName);
             return this.RedirectToAction("Details", "Groups", new { id = groupId });
         }
+
+        [HttpPost]
+        public IActionResult Decline(string groupId, string requestId, string userName) 
+        {
+            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(requestId) || string.IsNullOrEmpty(userName))
+            {
+                return this.RedirectToAction("List", "Groups");
+            }
+
+            this.requestsService.DeclineRequest(groupId, requestId, userName);
+            return this.RedirectToAction("All", new { groupId = groupId });
+        }
     }
 }
