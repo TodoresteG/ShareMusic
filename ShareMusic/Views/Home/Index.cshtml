@@ -5,7 +5,10 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form asp-controller="Songs" asp-action="Search" method="get" class="form-inline d-flex justify-content-center md-form form-sm mb-md-5">
+        <input asp-for="SearchText" class="form-control form-control-sm mr-3 w-75" placeholder="Search" aria-label="Search" />
+        <input type="submit" class="btn btn-outline-info" value="Search" />
+    </form>
 </div>
 
 <ul class="row list-unstyled">

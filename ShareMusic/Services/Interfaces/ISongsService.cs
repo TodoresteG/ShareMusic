@@ -13,5 +13,7 @@ namespace ShareMusic.Services.Interfaces
         HomeRecentSongsViewModel GetRecentSongs();
 
         SongDetailsViewModel GetDetails(int songId, string userId);
+
+        SongsSearchResultViewModel Search(string searchText);
     }
 }

@@ -77,18 +77,29 @@ namespace ShareMusic.Controllers
 
             this.songsService.UpdateSongsSystemData(songId);
 
-            return Redirect("/");
+            return this.Redirect("/");
         }
 
         public IActionResult Details(int songId) 
         {
             if (songId <= 0)
             {
-                return Redirect("/");
+                return this.Redirect("/");
             }
 
             string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             SongDetailsViewModel viewModel = this.songsService.GetDetails(songId, userId);
+            return this.View(viewModel);
+        }
+
+        public IActionResult Search(string searchText) 
+        {
+            if (string.IsNullOrEmpty(searchText) || string.IsNullOrWhiteSpace(searchText))
+            {
+                return this.Redirect("/");
+            }
+
+            SongsSearchResultViewModel viewModel = this.songsService.Search(searchText);
             return this.View(viewModel);
         }
     }

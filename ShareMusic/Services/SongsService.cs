@@ -94,6 +94,20 @@ namespace ShareMusic.Services
             return new HomeRecentSongsViewModel { NewestSongs = newestSongs };
         }
 
+        public SongsSearchResultViewModel Search(string searchText)
+        {
+            List<SongCardViewModel> results = this.context.Songs
+                .Where(s => s.SearchTerms.Contains(searchText))
+                .Select(s => new SongCardViewModel
+                {
+                    SongId = s.Id,
+                    Name = s.Name,
+                    VideoId = s.Metadata.FirstOrDefault(m => m.SongId == s.Id && m.Type == "YouTubeVideo").Value,
+                }).ToList();
+
+            return new SongsSearchResultViewModel { SearchResults = results, SearchText = searchText, };
+        }
+
         public void UpdateSongsSystemData(int songId)
         {
             Song song = this.context.Songs.Find(songId);

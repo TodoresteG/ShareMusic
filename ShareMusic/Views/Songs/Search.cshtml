@@ -1,0 +1,14 @@
+﻿@model SongsSearchResultViewModel
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1 class="text-center mb-md-4">Search results for: @Model.SearchText - @Model.SearchResults.Count</h1>
+<ul class="row list-unstyled">
+    @foreach (var result in Model.SearchResults)
+    {
+        <li class="col-md-4">
+            <partial name="_SongCardPartialView" model="@result" />
+        </li>
+    }
+</ul>

@@ -5,5 +5,7 @@ namespace ShareMusic.Models.Home
     public class HomeRecentSongsViewModel
     {
         public ICollection<SongCardViewModel> NewestSongs { get; set; }
+
+        public string SearchText { get; set; }
     }
 }
